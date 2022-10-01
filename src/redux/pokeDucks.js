@@ -13,6 +13,7 @@ const dataInicial = {
 // types
 const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
 const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
+const ANTERIOR_POKEMONES_EXITO = 'ANTERIOR_POKEMONES_EXITO'
 
 // reducer
 export default function pokeReducer(state = dataInicial, action){
@@ -20,6 +21,8 @@ export default function pokeReducer(state = dataInicial, action){
         case OBTENER_POKEMONES_EXITO:
             return { ...state, ...action.payload }
         case SIGUIENTE_POKEMONES_EXITO:
+            return { ...state, ...action.payload }
+        case ANTERIOR_POKEMONES_EXITO:
             return { ...state, ...action.payload }
         default:
             return state
@@ -39,7 +42,7 @@ export const obtenerPokemonesAccion = () => async(dispatch, getState) => {
     }
 }
 
-export const listarPokemonesAccion = () => async(dispatch, getState) => {
+export const siguientePokemonesAccion = () => async(dispatch, getState) => {
     const { next } = getState().pokemones
     try {
         const res = await axios.get(next)
@@ -47,6 +50,19 @@ export const listarPokemonesAccion = () => async(dispatch, getState) => {
             type: SIGUIENTE_POKEMONES_EXITO
             , payload: res.data
         })       
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const anteriorPokemonesAccion = () => async(dispatch, getState) => {
+    const { previous } = getState().pokemones
+    try {
+        const res = await axios.get(previous)
+        dispatch({
+            type: ANTERIOR_POKEMONES_EXITO
+            , payload: res.data
+        })
     } catch (error) {
         console.log(error)
     }
