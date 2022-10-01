@@ -2,21 +2,25 @@ import axios from 'axios'
 
 // constantes
 const dataInicial = {
-    array: []
-    , offset: 0
+    // array: []
+    // , offset: 0
+    count: 0
+    , next: ''
+    , previous: ''
+    , results: []
 }
 
 // types
 const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
-const LISTAR_POKEMONES_EXITO = 'LISTAR_POKEMONES_EXITO'
+const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
 
 // reducer
 export default function pokeReducer(state = dataInicial, action){
     switch(action.type) {
         case OBTENER_POKEMONES_EXITO:
-            return {...state, array: action.payload}
-        case LISTAR_POKEMONES_EXITO:
-            return {...state, array: action.payload.results, offset: action.payload.offset}
+            return { ...state, ...action.payload }
+        case SIGUIENTE_POKEMONES_EXITO:
+            return { ...state, ...action.payload }
         default:
             return state
     }
@@ -28,22 +32,20 @@ export const obtenerPokemonesAccion = () => async(dispatch, getState) => {
         const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=20`)
         dispatch({
            type: OBTENER_POKEMONES_EXITO
-           , payload: res.data.results
+           , payload: res.data
         })
     } catch (error) {
         console.log(error)
     }
 }
 
-export const listarPokemonesAccion = (numero) => async(dispatch, getState) => {
-    console.log(getState().pokemones.offset)
-    const { offset } = getState().pokemones
-    const valor = offset + numero
+export const listarPokemonesAccion = () => async(dispatch, getState) => {
+    const { next } = getState().pokemones
     try {
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${valor}&limit=20`)
+        const res = await axios.get(next)
         dispatch({
-            type: LISTAR_POKEMONES_EXITO
-            , payload: { results: res.data.results, offset: valor }
+            type: SIGUIENTE_POKEMONES_EXITO
+            , payload: res.data
         })       
     } catch (error) {
         console.log(error)

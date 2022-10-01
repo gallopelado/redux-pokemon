@@ -7,13 +7,13 @@ import { obtenerPokemonesAccion, listarPokemonesAccion } from '../redux/pokeDuck
 export const Pokemones = () => {
 
     const dispatch = useDispatch()
-    const pokemones = useSelector(store => store.pokemones.array)
+    const pokemones = useSelector(store => store.pokemones.results)
     
     return (
         <div>
             <h2>Lista de pokemones</h2>
             <button onClick={ () => dispatch(obtenerPokemonesAccion()) }>Get Pokemones</button>
-            <button onClick={ () => dispatch(listarPokemonesAccion(20)) }>Listar pokemones de a 20</button>
+            <button onClick={ () => dispatch(listarPokemonesAccion()) }>Next pokemones de a 20</button>
             <ul>
                 {
                     pokemones.map((item,i) => (
