@@ -14,6 +14,7 @@ const dataInicial = {
 const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
 const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
 const ANTERIOR_POKEMONES_EXITO = 'ANTERIOR_POKEMONES_EXITO'
+const UN_POKEMON_EXITO = 'UN_POKEMON_EXITO'
 
 // reducer
 export default function pokeReducer(state = dataInicial, action){
@@ -24,12 +25,27 @@ export default function pokeReducer(state = dataInicial, action){
             return { ...state, ...action.payload }
         case ANTERIOR_POKEMONES_EXITO:
             return { ...state, ...action.payload }
+        case UN_POKEMON_EXITO:
+            return { ...state, un_pokemon: action.payload }
         default:
             return state
     }
 }
 
 // acciones
+export const obtenerUnPokemon = (url = 'https://pokeapi.co/api/v2/pokemon/1/') => async(dispatch) => {
+    try {
+        const res = await axios.get(url)
+        dispatch({
+            type: UN_POKEMON_EXITO
+            , payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const obtenerPokemonesAccion = () => async(dispatch, getState) => {
     if(localStorage.getItem('offset=0')){
         dispatch({
