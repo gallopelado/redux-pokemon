@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -10,6 +10,9 @@ export const Pokemones = () => {
     const dispatch = useDispatch()
     const { results, next, previous } = useSelector(store => store.pokemones)
 
+    useEffect(()=> {
+        dispatch(obtenerPokemonesAccion())
+    }, [dispatch])
     
     return (
         <div className='container mt-4'>
@@ -25,7 +28,7 @@ export const Pokemones = () => {
                     }
                 
                     {
-                        next ? <button className='btn btn-primary' onClick={ () => dispatch(siguientePokemonesAccion()) }>Next results</button> : ''
+                        next ? <button className='btn btn-primary ms-1' onClick={ () => dispatch(siguientePokemonesAccion()) }>Next results</button> : ''
                     }
                     
                     
