@@ -7,7 +7,6 @@ export const Detalle = () => {
 
     const dispatch = useDispatch()
     const pokemon = useSelector(store => store.pokemones.un_pokemon)
-    console.log(pokemon)
 
     useEffect(() => {
         const recibir = () => {
@@ -16,12 +15,12 @@ export const Detalle = () => {
         recibir()
     }, [dispatch])
 
-    return (
+    return pokemon ? (
         <div className='card text-center'>
             <div className="card-header text-uppercase">{ pokemon.name }</div>
             <img src={pokemon.sprites.front_default} alt="imagen_pokemon" />
             <div className="card-body">
             </div>
         </div>
-    )
+    ) : ''
 }
